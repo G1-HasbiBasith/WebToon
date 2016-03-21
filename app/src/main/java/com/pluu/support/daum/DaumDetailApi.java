@@ -7,6 +7,7 @@ import com.pluu.webtoon.item.DetailView;
 import com.pluu.webtoon.item.Episode;
 import com.pluu.webtoon.item.ShareItem;
 import com.pluu.webtoon.item.VIEW_TYPE;
+import com.pluu.webtoon.network.NetworkTask;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -25,6 +26,10 @@ public class DaumDetailApi extends AbstractDetailApi {
 	private static final String DETAIL_URL = "http://m.webtoon.daum.net/data/mobile/webtoon/viewer";
 	private static final String SHARE_URL = "http://m.webtoon.daum.net/m/webtoon/viewer/";
 	private String id;
+
+	public DaumDetailApi(NetworkTask task) {
+		super(task);
+	}
 
 	@Override
 	public Detail parseDetail(Episode episode) {

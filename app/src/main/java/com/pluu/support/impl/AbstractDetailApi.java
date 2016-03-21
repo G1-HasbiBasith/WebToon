@@ -12,6 +12,7 @@ import com.pluu.support.tstore.TStoreDetailApi;
 import com.pluu.webtoon.item.Detail;
 import com.pluu.webtoon.item.Episode;
 import com.pluu.webtoon.item.ShareItem;
+import com.pluu.webtoon.network.NetworkTask;
 
 /**
  * Detail Parse API
@@ -19,24 +20,28 @@ import com.pluu.webtoon.item.ShareItem;
  */
 public abstract class AbstractDetailApi extends NetworkSupportApi {
 
+	public AbstractDetailApi(NetworkTask task) {
+		super(task);
+	}
+
 	public abstract Detail parseDetail(Episode episode);
 
 	public abstract ShareItem getDetailShare(Episode episode, Detail detail);
 
-	public static AbstractDetailApi getApi(NAV_ITEM item) {
+	public static AbstractDetailApi getApi(NetworkTask task, NAV_ITEM item) {
 		switch (item) {
 			case NAVER:
-				return new NaverDetailApi();
+				return new NaverDetailApi(task);
 			case DAUM:
-				return new DaumDetailApi();
+				return new DaumDetailApi(task);
 			case OLLEH:
-				return new OllehDetailApi();
+				return new OllehDetailApi(task);
 			case KAKAOPAGE:
-				return new KakaoDetailApi();
+				return new KakaoDetailApi(task);
 			case NATE:
-				return new NateDetailApi();
+				return new NateDetailApi(task);
 			case T_STORE:
-				return new TStoreDetailApi();
+				return new TStoreDetailApi(task);
 			default:
 				throw new Resources.NotFoundException("Not Found API");
 		}

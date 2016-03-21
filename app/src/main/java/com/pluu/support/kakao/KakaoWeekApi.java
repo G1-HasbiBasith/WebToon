@@ -5,6 +5,7 @@ import com.pluu.support.impl.ServiceConst;
 import com.pluu.webtoon.R;
 import com.pluu.webtoon.item.Status;
 import com.pluu.webtoon.item.WebToonInfo;
+import com.pluu.webtoon.network.NetworkTask;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -26,8 +27,8 @@ public class KakaoWeekApi extends AbstractWeekApi {
 	private final String WEEK_URL = "http://page.kakao.com/main/ajaxCallWeeklyList";
 	private int currentPos;
 
-	public KakaoWeekApi() {
-		super(TITLE);
+	public KakaoWeekApi(NetworkTask task) {
+		super(task, TITLE);
 	}
 
 	@Override

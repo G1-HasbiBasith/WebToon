@@ -21,7 +21,6 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
@@ -48,6 +47,7 @@ import com.pluu.webtoon.item.Detail;
 import com.pluu.webtoon.item.DetailView;
 import com.pluu.webtoon.item.Episode;
 import com.pluu.webtoon.item.ShareItem;
+import com.pluu.webtoon.network.NetworkTask;
 import com.pluu.webtoon.ui.detail.BaseDetailFragment;
 import com.pluu.webtoon.ui.detail.DaumChattingFragment;
 import com.pluu.webtoon.ui.detail.DaumMultiFragment;
@@ -57,6 +57,8 @@ import com.pluu.webtoon.ui.detail.ToggleListener;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+
+import javax.inject.Inject;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -70,7 +72,7 @@ import rx.schedulers.Schedulers;
  * 상세화면 Activity
  * Created by nohhs on 15. 3. 2.
  */
-public class DetailActivity extends AppCompatActivity
+public class DetailActivity extends BaseActivity
     implements ToggleListener, FirstBindListener {
 
     private final String TAG = DetailActivity.class.getSimpleName();
@@ -95,6 +97,7 @@ public class DetailActivity extends AppCompatActivity
     private int SWIPE_THRESHOLD_VELOCITY;
     private ObjectAnimator statusBarAnimator;
 
+    @Inject NetworkTask networkTask;
     private AbstractDetailApi serviceApi;
     private ServiceConst.NAV_ITEM service;
     private Detail currentItem;
@@ -113,6 +116,7 @@ public class DetailActivity extends AppCompatActivity
         setContentView(R.layout.activity_detail);
         ButterKnife.bind(this);
 
+        getNetworkComponent().inject(this);
         setSupportActionBar(toolbar);
         initSupportActionBar();
         getApi();
@@ -151,7 +155,7 @@ public class DetailActivity extends AppCompatActivity
     private void getApi() {
         Intent intent = getIntent();
         service = (ServiceConst.NAV_ITEM) intent.getSerializableExtra(Const.EXTRA_API);
-        serviceApi = AbstractDetailApi.getApi(service);
+        serviceApi = AbstractDetailApi.getApi(networkTask, service);
     }
 
     private void initView() {

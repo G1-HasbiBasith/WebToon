@@ -1,22 +1,23 @@
 package com.pluu.support.nate;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import com.pluu.support.impl.AbstractEpisodeApi;
 import com.pluu.webtoon.item.Episode;
 import com.pluu.webtoon.item.EpisodePage;
 import com.pluu.webtoon.item.WebToonInfo;
+import com.pluu.webtoon.network.NetworkTask;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * 네이트 웹툰 Episode API
@@ -33,6 +34,10 @@ public class NateEpisodeApi extends AbstractEpisodeApi {
 
 	private Episode firstEpisode;
 	private int pageNo;
+
+	public NateEpisodeApi(NetworkTask task) {
+		super(task);
+	}
 
 	@Override
 	public EpisodePage parseEpisode(WebToonInfo info) {

@@ -33,8 +33,11 @@ import com.pluu.webtoon.db.RealmHelper;
 import com.pluu.webtoon.event.MainEpisodeLoadedEvent;
 import com.pluu.webtoon.event.MainEpisodeStartEvent;
 import com.pluu.webtoon.item.WebToonInfo;
+import com.pluu.webtoon.network.NetworkTask;
 
 import java.util.List;
+
+import javax.inject.Inject;
 
 import rx.Observable;
 import rx.Subscriber;
@@ -48,7 +51,7 @@ import rx.schedulers.Schedulers;
  * Main EpisodePage List Fragment
  * Created by PLUUSYSTEM-NEW on 2015-10-27.
  */
-public class WebtoonListFragment extends Fragment {
+public class WebtoonListFragment extends BaseFragment {
 	private final String TAG = WebtoonListFragment.class.getSimpleName();
 
 	private RecyclerView recyclerView;
@@ -58,6 +61,9 @@ public class WebtoonListFragment extends Fragment {
 	private final int REQUEST_DETAIL = 1000;
 	public static final int REQUEST_DETAIL_REFERRER = 1001;
 
+	@Inject
+	NetworkTask networkTask;
+
 	private AbstractWeekApi serviceApi;
 	private int columnCount;
 
@@ -65,8 +71,6 @@ public class WebtoonListFragment extends Fragment {
 	public void onCreate(@Nullable Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		ServiceConst.NAV_ITEM service = ServiceConst.getApiType(getArguments());
-		serviceApi = AbstractWeekApi.getApi(service);
 		position = getArguments().getInt(Const.EXTRA_POS);
 		columnCount = getResources().getInteger(R.integer.webtoon_column_count);
 	}
@@ -84,6 +88,10 @@ public class WebtoonListFragment extends Fragment {
 	@Override
 	public void onActivityCreated(@Nullable Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
+
+		getNetworkComponent().inject(this);
+		ServiceConst.NAV_ITEM service = ServiceConst.getApiType(getArguments());
+		serviceApi = AbstractWeekApi.getApi(networkTask, service);
 
 		getApiRequest()
 			.subscribeOn(Schedulers.newThread())

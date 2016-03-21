@@ -4,6 +4,7 @@ import com.pluu.support.impl.AbstractEpisodeApi;
 import com.pluu.webtoon.item.Episode;
 import com.pluu.webtoon.item.EpisodePage;
 import com.pluu.webtoon.item.WebToonInfo;
+import com.pluu.webtoon.network.NetworkTask;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -27,6 +28,10 @@ public class KakaoEpisodeApi extends AbstractEpisodeApi {
 	private String url;
 	private int offset;
 	private Episode firstEpisode;
+
+	public KakaoEpisodeApi(NetworkTask task) {
+		super(task);
+	}
 
 	@Override
 	public EpisodePage parseEpisode(WebToonInfo info) {

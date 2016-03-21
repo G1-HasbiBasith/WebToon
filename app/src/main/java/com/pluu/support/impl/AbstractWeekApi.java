@@ -4,10 +4,6 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.support.v4.content.ContextCompat;
 
-import java.util.Calendar;
-import java.util.List;
-import java.util.Locale;
-
 import com.pluu.support.daum.DaumWeekApi;
 import com.pluu.support.impl.ServiceConst.NAV_ITEM;
 import com.pluu.support.kakao.KakaoWeekApi;
@@ -16,6 +12,11 @@ import com.pluu.support.naver.NaverWeekApi;
 import com.pluu.support.olleh.OllehWeekApi;
 import com.pluu.support.tstore.TStorerWeekApi;
 import com.pluu.webtoon.item.WebToonInfo;
+import com.pluu.webtoon.network.NetworkTask;
+
+import java.util.Calendar;
+import java.util.List;
+import java.util.Locale;
 
 /**
  * Week API
@@ -25,7 +26,8 @@ public abstract class AbstractWeekApi extends NetworkSupportApi {
 
 	private final String[] CURRENT_TABS;
 
-	protected AbstractWeekApi(String[] tabs) {
+	public AbstractWeekApi(NetworkTask task, String[]tabs) {
+		super(task);
 		this.CURRENT_TABS = tabs;
 	}
 
@@ -58,19 +60,23 @@ public abstract class AbstractWeekApi extends NetworkSupportApi {
 	public abstract List<WebToonInfo> parseMain(int position);
 
 	public static AbstractWeekApi getApi(NAV_ITEM item) {
+		return getApi(null, item);
+	}
+
+	public static AbstractWeekApi getApi(NetworkTask task, NAV_ITEM item) {
 		switch (item) {
 			case NAVER:
-				return new NaverWeekApi();
+				return new NaverWeekApi(task);
 			case DAUM:
-				return new DaumWeekApi();
+				return new DaumWeekApi(task);
 			case OLLEH:
-				return new OllehWeekApi();
+				return new OllehWeekApi(task);
 			case KAKAOPAGE:
-				return new KakaoWeekApi();
+				return new KakaoWeekApi(task);
 			case NATE:
-				return new NateWeekApi();
+				return new NateWeekApi(task);
 			case T_STORE:
-				return new TStorerWeekApi();
+				return new TStorerWeekApi(task);
 			default:
 				throw new Resources.NotFoundException("Not Found API");
 		}

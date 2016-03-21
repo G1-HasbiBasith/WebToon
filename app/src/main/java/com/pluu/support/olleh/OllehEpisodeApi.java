@@ -1,18 +1,19 @@
 package com.pluu.support.olleh;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
-
 import com.pluu.support.impl.AbstractEpisodeApi;
 import com.pluu.webtoon.item.Episode;
 import com.pluu.webtoon.item.EpisodePage;
 import com.pluu.webtoon.item.WebToonInfo;
 import com.pluu.webtoon.item.WebToonType;
+import com.pluu.webtoon.network.NetworkTask;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 올레 웹툰 Episode API
@@ -30,6 +31,10 @@ public class OllehEpisodeApi extends AbstractEpisodeApi {
 	private int page = 0;
 
 	private String id;
+
+	public OllehEpisodeApi(NetworkTask task) {
+		super(task);
+	}
 
 	@Override
 	public EpisodePage parseEpisode(WebToonInfo info) {

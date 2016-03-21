@@ -1,10 +1,10 @@
 package com.pluu.support.impl;
 
-import java.util.Collections;
-import java.util.Map;
-
 import com.pluu.webtoon.network.NetworkTask;
 import com.squareup.okhttp.Request;
+
+import java.util.Collections;
+import java.util.Map;
 
 /**
  * Network Support API Class
@@ -14,6 +14,12 @@ public abstract class NetworkSupportApi implements IRequest {
 
 	public static final String POST = "POST";
 	public static final String GET = "GET";
+
+	NetworkTask networkTask;
+
+	public NetworkSupportApi(NetworkTask task) {
+		networkTask = task;
+	}
 
 	public abstract String getMethod();
 
@@ -30,11 +36,11 @@ public abstract class NetworkSupportApi implements IRequest {
 	}
 
 	protected String requestApi() throws Exception {
-		return new NetworkTask().requestApi(this);
+		return networkTask.requestApi(this);
 	}
 
 	protected String requestApi(Request request) throws Exception {
-		return new NetworkTask().requestApi(request);
+		return networkTask.requestApi(request);
 	}
 
 }

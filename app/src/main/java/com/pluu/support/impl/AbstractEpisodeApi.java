@@ -12,12 +12,17 @@ import com.pluu.support.tstore.TStoreEpisodeApi;
 import com.pluu.webtoon.item.Episode;
 import com.pluu.webtoon.item.EpisodePage;
 import com.pluu.webtoon.item.WebToonInfo;
+import com.pluu.webtoon.network.NetworkTask;
 
 /**
  * Episode API
  * Created by PLUUSYSTEM-NEW on 2015-10-26.
  */
 public abstract class AbstractEpisodeApi extends NetworkSupportApi {
+
+	public AbstractEpisodeApi(NetworkTask task) {
+		super(task);
+	}
 
 	public void init() { }
 
@@ -27,20 +32,20 @@ public abstract class AbstractEpisodeApi extends NetworkSupportApi {
 
 	public abstract Episode getFirstEpisode(Episode item);
 
-	public static AbstractEpisodeApi getApi(NAV_ITEM item) {
+	public static AbstractEpisodeApi getApi(NetworkTask task, NAV_ITEM item) {
 		switch (item) {
 			case NAVER:
-				return new NaverEpisodeApi();
+				return new NaverEpisodeApi(task);
 			case DAUM:
-				return new DaumEpisodeApi();
+				return new DaumEpisodeApi(task);
 			case OLLEH:
-				return new OllehEpisodeApi();
+				return new OllehEpisodeApi(task);
 			case KAKAOPAGE:
-				return new KakaoEpisodeApi();
+				return new KakaoEpisodeApi(task);
 			case NATE:
-				return new NateEpisodeApi();
+				return new NateEpisodeApi(task);
 			case T_STORE:
-				return new TStoreEpisodeApi();
+				return new TStoreEpisodeApi(task);
 			default:
 				throw new Resources.NotFoundException("Not Found API");
 		}

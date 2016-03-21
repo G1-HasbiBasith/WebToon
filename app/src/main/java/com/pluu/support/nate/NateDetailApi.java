@@ -1,17 +1,19 @@
 package com.pluu.support.nate;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.pluu.support.impl.AbstractDetailApi;
 import com.pluu.webtoon.item.Detail;
 import com.pluu.webtoon.item.DetailView;
 import com.pluu.webtoon.item.Episode;
 import com.pluu.webtoon.item.ShareItem;
+import com.pluu.webtoon.network.NetworkTask;
+
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 네이트 웹툰 상세 API
@@ -21,6 +23,10 @@ public class NateDetailApi extends AbstractDetailApi {
 
 	private final String DETAIL_URL = "http://m.comics.nate.com/main2/webtoon/WebtoonView.php?btno=%s&bsno=%s";
 	private String webToonId, episodeId;
+
+	public NateDetailApi(NetworkTask task) {
+		super(task);
+	}
 
 	@Override
 	public Detail parseDetail(Episode episode) {

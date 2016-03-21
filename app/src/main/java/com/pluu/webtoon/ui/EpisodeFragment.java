@@ -6,7 +6,7 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v4.app.Fragment;
+import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -30,10 +30,13 @@ import com.pluu.webtoon.item.Episode;
 import com.pluu.webtoon.item.EpisodePage;
 import com.pluu.webtoon.item.WebToonInfo;
 import com.pluu.webtoon.model.REpisode;
+import com.pluu.webtoon.network.NetworkTask;
 import com.pluu.webtoon.utils.MoreRefreshListener;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.inject.Inject;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -51,7 +54,7 @@ import rx.subscriptions.CompositeSubscription;
  * 에피소드 리스트 Fragment
  * Created by nohhs on 2015-04-06.
  */
-public class EpisodeFragment extends Fragment
+public class EpisodeFragment extends BaseFragment
 	implements SwipeRefreshLayout.OnRefreshListener {
 
 	private final String TAG = EpisodeFragment.class.getSimpleName();
@@ -70,6 +73,9 @@ public class EpisodeFragment extends Fragment
 	private String nextLink;
 
 	private ServiceConst.NAV_ITEM service;
+
+	@Inject
+	NetworkTask networkTask;
 	private AbstractEpisodeApi serviceApi;
 
 	private int[] color;
@@ -90,6 +96,12 @@ public class EpisodeFragment extends Fragment
 	}
 
 	@Override
+	public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
+		getNetworkComponent().inject(this);
+	}
+
+	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 							 Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_episode, container, false);
@@ -103,7 +115,7 @@ public class EpisodeFragment extends Fragment
 
 		Bundle args = getArguments();
 		service = (ServiceConst.NAV_ITEM) args.getSerializable(Const.EXTRA_API);
-		serviceApi = AbstractEpisodeApi.getApi(service);
+		serviceApi = AbstractEpisodeApi.getApi(networkTask, service);
 		webToonInfo = args.getParcelable(Const.EXTRA_EPISODE);
 		color = args.getIntArray(Const.EXTRA_MAIN_COLOR);
 

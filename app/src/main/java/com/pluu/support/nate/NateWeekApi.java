@@ -1,18 +1,20 @@
 package com.pluu.support.nate;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import com.pluu.support.impl.AbstractWeekApi;
 import com.pluu.support.impl.ServiceConst;
 import com.pluu.webtoon.R;
 import com.pluu.webtoon.item.WebToonInfo;
+import com.pluu.webtoon.network.NetworkTask;
+
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * 네이트 웹툰 Week API
@@ -23,8 +25,8 @@ public class NateWeekApi extends AbstractWeekApi {
 	private static final String[] TITLE = new String[]{"월", "화", "수", "목", "금", "토", "일"};
 	private final String WEEKLY_URL = "http://m.comics.nate.com/main/index";
 
-	public NateWeekApi() {
-		super(TITLE);
+	public NateWeekApi(NetworkTask task) {
+		super(task, TITLE);
 	}
 
 	@Override

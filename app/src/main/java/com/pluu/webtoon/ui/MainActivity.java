@@ -19,7 +19,7 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 import rx.subscriptions.CompositeSubscription;
 
-public class MainActivity extends BaseActivity {
+public class MainActivity extends MainBaseActivity {
 
 	private NAV_ITEM selfDrawerItem;
 

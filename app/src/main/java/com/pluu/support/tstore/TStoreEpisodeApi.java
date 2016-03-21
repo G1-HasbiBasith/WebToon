@@ -1,24 +1,25 @@
 package com.pluu.support.tstore;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
-
 import com.pluu.support.impl.AbstractEpisodeApi;
 import com.pluu.webtoon.item.Episode;
 import com.pluu.webtoon.item.EpisodePage;
 import com.pluu.webtoon.item.WebToonInfo;
+import com.pluu.webtoon.network.NetworkTask;
 import com.squareup.okhttp.FormEncodingBuilder;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.RequestBody;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * TStore 웹툰 에피소드 Api
@@ -35,6 +36,10 @@ public class TStoreEpisodeApi extends AbstractEpisodeApi {
 	private String id;
 	private int pageNo;
 	private Episode firstEpisode;
+
+	public TStoreEpisodeApi(NetworkTask task) {
+		super(task);
+	}
 
 	@Override
 	public EpisodePage parseEpisode(WebToonInfo info) {

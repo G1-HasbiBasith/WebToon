@@ -4,7 +4,6 @@ import android.net.Uri;
 
 import com.pluu.support.impl.IRequest;
 import com.pluu.support.impl.NetworkSupportApi;
-import com.pluu.webtoon.common.LoggingInterceptor;
 import com.squareup.okhttp.FormEncodingBuilder;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
@@ -20,7 +19,11 @@ import java.util.Map;
  */
 public class NetworkTask {
 
-	private final OkHttpClient client = new OkHttpClient();
+	private final OkHttpClient client;
+
+	public NetworkTask(OkHttpClient client) {
+		this.client = client;
+	}
 
 	public String requestApi(final IRequest request) throws Exception {
 		Request.Builder builder = new Request.Builder();
@@ -52,7 +55,6 @@ public class NetworkTask {
 	}
 
 	public String requestApi(Request request) throws Exception {
-		client.interceptors().add(new LoggingInterceptor());
 		Response response = client.newCall(request).execute();
 		return response.body().string();
 	}

@@ -5,6 +5,7 @@ import com.pluu.webtoon.item.Detail;
 import com.pluu.webtoon.item.DetailView;
 import com.pluu.webtoon.item.Episode;
 import com.pluu.webtoon.item.ShareItem;
+import com.pluu.webtoon.network.NetworkTask;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -21,6 +22,10 @@ public class KakaoDetailApi extends AbstractDetailApi {
 
 	private final String DETAIL_URL = "http://page.kakao.com/viewer?productId=%s&categoryUid=10&subCategoryUid=0";
 	private String id;
+
+	public KakaoDetailApi(NetworkTask task) {
+		super(task);
+	}
 
 	@Override
 	public Detail parseDetail(Episode episode) {
